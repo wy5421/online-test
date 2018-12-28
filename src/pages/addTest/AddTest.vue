@@ -48,13 +48,19 @@ export default {
       try {
         await post('/weapp/addTest', data)
         wx.navigateTo({
-          url: '/pages/me/main'
+          url: '/pages/owntest/main'
         })
       } catch (e) {
         showModal('失败', e.msg)
       }
       console.log(data)
       this.title = ''
+      this.choiceA = ''
+      this.choiceB = ''
+      this.choiceC = ''
+      this.choiceD = ''
+      this.answer = ''
+      this.dept = ''
     },
     async getDepts () {
       const deptInfo = await get('/weapp/getDepts', '')

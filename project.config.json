@@ -1,7 +1,7 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": false,
 		"postcss": true,
 		"minified": true,
@@ -12,6 +12,7 @@
 	"compileType": "miniprogram",
 	"appid": "wxe8765fbc1e8341b7",
 	"projectname": "online-test",
+	"qcloudRoot": "server/",
 	"condition": {
 		"search": {
 			"current": -1,
