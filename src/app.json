@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/me/main",
+    "pages/comments/main",
+    "pages/tests/main",
+    "pages/addTest/main",
+    "pages/detail/main",
+    "pages/usertest/main",
+    "pages/formertest/main",
+    "pages/owntest/main",
+    "pages/operation/main",
+    "pages/introduction/main",
+    "pages/updatetest/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "欧哈娜",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "selectedColor": "green",
+    "list": [{
+        "pagePath": "pages/tests/main",
+        "text": "首页",
+        "iconPath": "static/img/index1.png",
+        "selectedIconPath": "static/img/index2.png"
+      },
+      {
+        "pagePath": "pages/usertest/main",
+        "text": "考试",
+        "iconPath": "static/img/todo.png",
+        "selectedIconPath": "static/img/todo-active.png"
+      },
+      {
+        "pagePath": "pages/me/main",
+        "text": "用户",
+        "iconPath": "static/img/user1.png",
+        "selectedIconPath": "static/img/user2.png"
+      }
+    ]
+  }
+}

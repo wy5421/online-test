@@ -1,0 +1,9 @@
+{
+    "enablePullDownRefresh":true,
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "参加过的回答",
+        "navigationBarTextStyle": "black"
+      }
+}
