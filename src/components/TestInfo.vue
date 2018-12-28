@@ -34,7 +34,7 @@
 
 <script>
 export default {
-    props:['test']    
+  props: ['test']
 }
 </script>
 

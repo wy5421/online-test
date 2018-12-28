@@ -16,52 +16,52 @@
 
 <script>
 
-import {get, showModal} from '@/util'
+import {get} from '@/util'
 import UserOwnTest from '@/components/UserOwnTest'
 import UserFormerTest from '@/components/UserFormerTest'
 
 export default {
-    components:{
-        UserOwnTest,
-        UserFormerTest
-    },
-    data(){
-        return{
-            userTest: [],
-            formerTest: []
-        }
-    },
-    methods:{
-        async getUserTest(){
-            const userTest = await get('/weapp/getUserTest',{id:this.userinfo.openId})
-            this.userTest = userTest.list
-        },
-        async getUserFormerTest(){
-            const formerTest = await get('/weapp/getUserFormerTest',{id:this.userinfo.openId})
-            this.formerTest = formerTest.list
-        }
-    },
-    onPullDownRefresh(){
-        wx.showNavigationBarLoading()
-        console.log('下拉')
-        this.getUserTest()
-        this.getUserFormerTest()
-        wx.stopPullDownRefresh()
-        wx.hideNavigationBarLoading()
-    },
-    mounted(){
-        const userinfo = wx.getStorageSync('userinfo')
-        if(userinfo){
-            this.userinfo = userinfo 
-        }
-        this.getUserTest()
-        this.getUserFormerTest()
-    },
-    computed:{
-        formerUrl(){
-            return '/pages/formertest/main'
-        }
+  components: {
+    UserOwnTest,
+    UserFormerTest
+  },
+  data () {
+    return {
+      userTest: [],
+      formerTest: []
     }
+  },
+  methods: {
+    async getUserTest () {
+      const userTest = await get('/weapp/getUserTest', {id: this.userinfo.openId})
+      this.userTest = userTest.list
+    },
+    async getUserFormerTest () {
+      const formerTest = await get('/weapp/getUserFormerTest', {id: this.userinfo.openId})
+      this.formerTest = formerTest.list
+    }
+  },
+  onPullDownRefresh () {
+    wx.showNavigationBarLoading()
+    console.log('下拉')
+    this.getUserTest()
+    this.getUserFormerTest()
+    wx.stopPullDownRefresh()
+    wx.hideNavigationBarLoading()
+  },
+  mounted () {
+    const userinfo = wx.getStorageSync('userinfo')
+    if (userinfo) {
+      this.userinfo = userinfo
+    }
+    this.getUserTest()
+    this.getUserFormerTest()
+  },
+  computed: {
+    formerUrl () {
+      return '/pages/formertest/main'
+    }
+  }
 }
 </script>
 

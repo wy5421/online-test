@@ -22,55 +22,50 @@
 
 <script>
 
-import {get, showModal} from '@/util'
+import {get} from '@/util'
 import Card from '@/components/Card'
 
-
 export default {
-    components:{
-        Card
+  components: {
+    Card
+  },
+  data () {
+    return {
+      currentTab: 0,
+      userinfo: '',
+      formerTest: [],
+      userTest: [],
+      tabBar: [
+        {title: '我发布的'},
+        {title: '以往考试'}
+      ]
+    }
+  },
+  methods: {
+    async getUserTest () {
+      const userTest = await get('/weapp/getUserTest', {id: this.userinfo.openId})
+      this.userTest = userTest.list
     },
-    data(){
-        return {
-            currentTab: 0,
-            userinfo: '',
-            formerTest: [],
-            userTest: [],
-            tabBar: [
-                {title: '我发布的'},
-                {title: '以往考试'}
-                ]
-        }
+    async getUserFormerTest () {
+      const formerTest = await get('/weapp/getUserFormerTest', {id: this.userinfo.openId})
+      this.formerTest = formerTest.list
     },
-    methods:{
-        changeTab(){
-            this.currentTab = !this.currentTab
-            console.log(this.currentTab)
-        },
-        async getUserTest(){
-            const userTest = await get('/weapp/getUserTest',{id:this.userinfo.openId})
-            this.userTest = userTest.list
-        },
-        async getUserFormerTest(){
-            const formerTest = await get('/weapp/getUserFormerTest',{id:this.userinfo.openId})
-            this.formerTest = formerTest.list
-        },
-        clickTab(e) {
-            this.currentTab = e;
-        },
-        changeTab(e) {
-            this.currentTab = e.mp.detail.current;
-        }
+    clickTab (e) {
+      this.currentTab = e
     },
-    mounted(){
-        const userinfo = wx.getStorageSync('userinfo')
-        if(userinfo){
-            this.userinfo = userinfo 
-            console.log(this.userinfo)   
-        }
-        this.getUserTest()
-        this.getUserFormerTest()
-    },
+    changeTab (e) {
+      this.currentTab = e.mp.detail.current
+    }
+  },
+  mounted () {
+    const userinfo = wx.getStorageSync('userinfo')
+    if (userinfo) {
+      this.userinfo = userinfo
+      console.log(this.userinfo)
+    }
+    this.getUserTest()
+    this.getUserFormerTest()
+  }
 
 }
 </script>

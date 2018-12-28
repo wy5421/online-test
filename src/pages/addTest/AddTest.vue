@@ -20,67 +20,65 @@
 import {get, post, showModal} from '@/util'
 
 export default {
-    data() {
-        return {
-            userinfo:'',
-            comment: '',
-            choiceA: '',
-            choiceB: '',
-            choiceC: '',
-            choiceD: '',
-            answer: '',
-            deptInfo: [],
-            deptinfo: []
-        }
+  data () {
+    return {
+      userinfo: '',
+      comment: '',
+      choiceA: '',
+      choiceB: '',
+      choiceC: '',
+      choiceD: '',
+      answer: '',
+      deptInfo: [],
+      deptinfo: []
+    }
+  },
+  methods: {
+    async addTest () {
+      const data = {
+        title: this.title,
+        choiceA: this.choiceA,
+        choiceB: this.choiceB,
+        choiceC: this.choiceC,
+        choiceD: this.choiceD,
+        answer: this.answer,
+        deptId: this.dept,
+        openId: this.userinfo.openId
+      }
+      try {
+        await post('/weapp/addTest', data)
+        wx.navigateTo({
+          url: '/pages/me/main'
+        })
+      } catch (e) {
+        showModal('失败', e.msg)
+      }
+      console.log(data)
+      this.title = ''
     },
-    methods: {
-        async addTest() {
-            const data = {
-                title: this.title,
-                choiceA: this.choiceA,
-                choiceB: this.choiceB,
-                choiceC: this.choiceC,
-                choiceD: this.choiceD,
-                answer: this.answer,
-                deptId: this.dept,
-                openId: this.userinfo.openId
-            }
-            try{
-                await post('/weapp/addTest',data)
-                wx.navigateTo({
-                    url: '/pages/me/main'
-                })
-            }
-            catch(e){
-                showModal('失败',e.msg)
-            }
-            console.log(data)
-            this.title = ''
-        },
-        async getDepts(){
-            const deptInfo = await get('/weapp/getDepts','')
-            console.log(deptInfo)
-            this.deptInfo = deptInfo
-            console.log(this.deptInfo)
-        },
-        pickerChange(){
+    async getDepts () {
+      const deptInfo = await get('/weapp/getDepts', '')
+      console.log(deptInfo)
+      this.deptInfo = deptInfo
+      console.log(this.deptInfo)
+    },
+    pickerChange () {
 
-        }
+    }
 
-    },
-    mounted(){ 
-        const userinfo = wx.getStorageSync('userinfo')
-        if(userinfo){
-            this.userinfo = userinfo
-            
-        }
-        this.getDepts()
-    },
-    // computed: {
-    //     deptInfo(){
-    //         return this.getDepts()
-    //     }
-    // }
+  },
+  mounted () {
+    const userinfo = wx.getStorageSync('userinfo')
+    if (userinfo) {
+      this.userinfo = userinfo
+    }
+    this.getDepts()
+  }
+  // computed: {
+  //     deptInfo(){
+  //         return this.getDepts()
+  //     }
+  // }
 
 }
 </script>

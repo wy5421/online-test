@@ -1,6 +1,6 @@
 const {mysql} = require('../qcloud')
 
-module.exports = async (ctx)=>{
+module.exports = async (ctx) => {
     const {title, choiceA, choiceB, choiceC, choiceD, answer, openId, deptId} = ctx.request.body
 
     console.log(title, choiceA, choiceB, choiceC, choiceD, answer, openId)
@@ -13,8 +13,8 @@ module.exports = async (ctx)=>{
     } catch (e) {
         ctx.state = {
             code: -1,
-            data:{
-                msg:'添加失败'+e.sqlMessage
+            data: {
+                msg: '添加失败' + e.sqlMessage
             }
         }
     }

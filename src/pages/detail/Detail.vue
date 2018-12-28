@@ -19,92 +19,90 @@
 
 <script>
 
-import {get, post, showModal} from '@/util'
+import {get, post} from '@/util'
 import TestInfo from '@/components/TestInfo'
 
 export default {
-    components:{
-        TestInfo
-    },
-    data(){
-        return {
-            testId: '',
-            tests: {},
-            userinfo: '',
-            testResult: []
-        }
-    },
-    computed:{
-        showLoged(){
-            if(!this.userinfo.openId){
-                return false
-            }
-            else{
-                return true
-            }
-        },
-        showAdd(){
-            if(this.testResult.filter(v=>v.openId==this.userinfo.openId).length){
-                return false
-            }
-            return true
-        }
-        // score(){
-        //     const userAns = this.testResult.uAns
-        //     const testAns = this.tests.answer
-        //     if(userAns === testAns){
-        //         console.log(123)
-        //     }
-            // if(this.testResult.uAns === this.tests.answer){
-            //     console.log(123)
-            // }
-        // }
-    },
-    methods:{
-        async getDetail(){
-            const tests = await get('/weapp/testDetail',{id:this.testId})
-            this.tests = tests.list
-            console.log(tests)
-            wx.setNavigationBarTitle({
-                title: `${tests.user_info.ncName}的提问`
-            })
-        },
-        async getTestResult(){
-            const testResult = await get('/weapp/testResult',{id:this.testId})
-            this.testResult = testResult
-            console.log(testResult)
-        },
-        async addAns(){
-            const data = {
-                openId: this.userinfo.openId,
-                queId: this.testId,
-                uAns: this.uAns
-            }
-            console.log(data)
-            try {
-                await post('/weapp/addAns', data)
-            } catch (e) {
-                e.showModal('失败',e.msg)
-            }
-            this.uAns = ''
-            this.getTestResult()
-        }
-    },
-    mounted(){
-
-        let userinfo = wx.getStorageSync('userinfo')
-        console.log(userinfo)
-        if (userinfo) {
-            this.userinfo = userinfo
-        }
-
-        this.testId = this.$root.$mp.query.id
-        // mpvue查询的方式
-        // query所有查询的参数
-        this.getDetail()
-        this.getTestResult()
+  components: {
+    TestInfo
+  },
+  data () {
+    return {
+      testId: '',
+      tests: {},
+      userinfo: '',
+      testResult: []
     }
-    
+  },
+  computed: {
+    showLoged () {
+      if (!this.userinfo.openId) {
+        return false
+      } else {
+        return true
+      }
+    },
+    showAdd () {
+      if (this.testResult.filter(v => v.openId === this.userinfo.openId).length) {
+        return false
+      }
+      return true
+    }
+    // score(){
+    //     const userAns = this.testResult.uAns
+    //     const testAns = this.tests.answer
+    //     if(userAns === testAns){
+    //         console.log(123)
+    //     }
+    // if(this.testResult.uAns === this.tests.answer){
+    //     console.log(123)
+    // }
+    // }
+  },
+  methods: {
+    async getDetail () {
+      const tests = await get('/weapp/testDetail', {id: this.testId})
+      this.tests = tests.list
+      console.log(tests)
+      wx.setNavigationBarTitle({
+        title: `${tests.user_info.ncName}的提问`
+      })
+    },
+    async getTestResult () {
+      const testResult = await get('/weapp/testResult', {id: this.testId})
+      this.testResult = testResult
+      console.log(testResult)
+    },
+    async addAns () {
+      const data = {
+        openId: this.userinfo.openId,
+        queId: this.testId,
+        uAns: this.uAns
+      }
+      console.log(data)
+      try {
+        await post('/weapp/addAns', data)
+      } catch (e) {
+        e.showModal('失败', e.msg)
+      }
+      this.uAns = ''
+      this.getTestResult()
+    }
+  },
+  mounted () {
+    let userinfo = wx.getStorageSync('userinfo')
+    console.log(userinfo)
+    if (userinfo) {
+      this.userinfo = userinfo
+    }
+
+    this.testId = this.$root.$mp.query.id
+    // mpvue查询的方式
+    // query所有查询的参数
+    this.getDetail()
+    this.getTestResult()
+  }
+
 }
 </script>
 

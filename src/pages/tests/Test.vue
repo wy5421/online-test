@@ -8,82 +8,81 @@
 
 <script>
 
-import {get, showModal} from '@/util'
+import {get} from '@/util'
 import Card from '@/components/Card'
 import TopSwiper from '@/components/TopSwiper'
 
 export default {
-    components: {
-        Card,
-        TopSwiper
-    },
-    data(){
-        return {
-            userinfo: '',
-            tests: [],
-            testId: '',
-            page:0,
-            more:true,
-            tops: {}
-        }
-    },
-    methods:{
-        async getTests(init){
-            if(init){
-                this.page = 0
-                this.more = true
-            }
-            wx.showNavigationBarLoading()
-            const tests = await get('/weapp/getTests',{page:this.page})
-            // this.tests = tests
-            // this.tests = tests.list
-            if(tests.list.length<5 && this.page>0){
-                this.more = false
-            }
-            if(init){
-                this.tests = tests.list
-                wx.stopPullDownRefresh()
-            }else{
-                // 不是覆盖掉原有数据而是累加
-                this.tests = this.tests.concat(tests.list)
-            }
-            wx.hideNavigationBarLoading()
-            console.log(tests)
-            // console.log(JSON.stringify(tests))
-        },
-        
-        async getTop(){
-            const tops = await get('/weapp/top')
-            this.tops = tops.list
-        }
-    },
-    onPullDownRefresh(){
-        console.log('下拉')
-        this.getTests(true)
-        this.getTop()
-    },
-    onReachBottom(){
-        if(!this.more){
-            // 没有更多数据
-            return 
-        }
-        this.page = this.page+1
-        this.getTests()
-    },
-    mounted(){
-        const userinfo = wx.getStorageSync('userinfo')
-        if(userinfo){
-            this.userinfo = userinfo
-            
-        }
-        this.getTests(true)
-        this.getTop()
-    },
-    computed:{
-        detailUrl(){
-            return '/pages/detail/main?id='
-        }
+  components: {
+    Card,
+    TopSwiper
+  },
+  data () {
+    return {
+      userinfo: '',
+      tests: [],
+      testId: '',
+      page: 0,
+      more: true,
+      tops: {}
     }
+  },
+  methods: {
+    async getTests (init) {
+      if (init) {
+        this.page = 0
+        this.more = true
+      }
+      wx.showNavigationBarLoading()
+      const tests = await get('/weapp/getTests', {page: this.page})
+      // this.tests = tests
+      // this.tests = tests.list
+      if (tests.list.length < 5 && this.page > 0) {
+        this.more = false
+      }
+      if (init) {
+        this.tests = tests.list
+        wx.stopPullDownRefresh()
+      } else {
+        // 不是覆盖掉原有数据而是累加
+        this.tests = this.tests.concat(tests.list)
+      }
+      wx.hideNavigationBarLoading()
+      console.log(tests)
+      // console.log(JSON.stringify(tests))
+    },
+
+    async getTop () {
+      const tops = await get('/weapp/top')
+      this.tops = tops.list
+    }
+  },
+  onPullDownRefresh () {
+    console.log('下拉')
+    this.getTests(true)
+    this.getTop()
+  },
+  onReachBottom () {
+    if (!this.more) {
+      // 没有更多数据
+      return
+    }
+    this.page = this.page + 1
+    this.getTests()
+  },
+  mounted () {
+    const userinfo = wx.getStorageSync('userinfo')
+    if (userinfo) {
+      this.userinfo = userinfo
+    }
+    this.getTests(true)
+    this.getTop()
+  },
+  computed: {
+    detailUrl () {
+      return '/pages/detail/main?id='
+    }
+  }
 }
 </script>
 

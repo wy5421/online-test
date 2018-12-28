@@ -20,9 +20,9 @@
 <script>
 export default {
   props: ['formertest'],
-  computed:{
-    detailUrl(){
-      return '/pages/detail/main?id='+this.formertest.queId
+  computed: {
+    detailUrl () {
+      return '/pages/detail/main?id=' + this.formertest.queId
     }
   }
 }

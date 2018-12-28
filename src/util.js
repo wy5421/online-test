@@ -44,4 +44,3 @@ export function showSuccess (text) {
     icon: 'success'
   })
 }
-

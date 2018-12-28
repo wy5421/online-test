@@ -1,7 +1,7 @@
 const {mysql} = require('../qcloud')
 
-module.exports = async (ctx)=>{
-    const de = ctx.request.query
+module.exports = async (ctx) => {
+    // const de = ctx.request.query
     const depts = await mysql('department').select('department.*')
     console.log(depts)
     ctx.state.data = depts
@@ -15,7 +15,7 @@ module.exports = async (ctx)=>{
     //             id: info.id,
     //             name: inform.name
     //         })
-            
+
     //     })
     // }
     // return ctx.state

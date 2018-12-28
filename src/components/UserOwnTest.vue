@@ -20,9 +20,9 @@
 <script>
 export default {
   props: ['usertest'],
-  computed:{
-    detailUrl(){
-      return '/pages/operation/main?id='+this.usertest.id
+  computed: {
+    detailUrl () {
+      return '/pages/operation/main?id=' + this.usertest.id
     }
   }
 }

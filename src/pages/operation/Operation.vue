@@ -29,110 +29,106 @@
 
 <script>
 
-import {get, post, showModal} from '@/util'
+import {get, post} from '@/util'
 import TestInfo from '@/components/TestInfo'
 
-
-
 export default {
-    components:{
-        TestInfo
-    },
-    data(){
-        return {
-            testId: '',
-            tests: {},
-            testResult: [],
-            userinfo: '',
-            settings: false,
-            deleteTe: false,
-        }
-    },
-    computed:{
-        showLoged(){
-            if(!this.userinfo.openId){
-                return false
-            }
-            else{
-                return true
-            }
-        },
-        showAdd(){
-            if(this.testResult.filter(v=>v.openId==this.userinfo.openId).length){
-                return false
-            }
-            return true
-        }
-    },
-    methods: {
-        async getUserTestDetail(){
-            const data = {
-                id: this.testId,
-                openId: this.userinfo.openId
-            }
-            const tests = await get('/weapp/getUserTestDetail', data)
-            this.tests = tests.list
-            console.log(tests)
-        },
-        async getTestResult(){
-            const testResult = await get('/weapp/testResult',{id:this.testId})
-            this.testResult = testResult
-            console.log(testResult)
-        },
-        async addAns(){
-            const data = {
-                openId: this.userinfo.openId,
-                queId: this.testId,
-                uAns: this.uAns
-            }
-            console.log(data)
-            try {
-                await post('/weapp/addAns', data)
-            } catch (e) {
-                e.showModal('失败',e.msg)
-            }
-            this.uAns = ''
-            this.getTestResult()
-        },
-        getSetting(e){
-            if(e.target.value){
-                this.settings = true
-                console.log(this.settings)
-            }
-            else{
-                this.settings = false
-            }
-        },
-        deleteTest(){
-            this.deleteTe = true
-        },
-        async deleteConfirm(){
-            await get('/weapp/deleteTest',{id:this.testId})
-            wx.navigateTo({
-                url: '/pages/owntest/main'
-            })
-        },
-        updateTest(){
-            wx.navigateTo({
-                url: '/pages/updatetest/main?id='+this.testId
-            })
-        }
-    },
-    mounted(){
-        let userinfo = wx.getStorageSync('userinfo')
-        console.log(userinfo)
-        if (userinfo) {
-            this.userinfo = userinfo
-        }
-        this.testId = this.$root.$mp.query.id
-        // mpvue查询的方式
-        // query所有查询的参数
-        this.getUserTestDetail()
-        this.getTestResult()
-    },
-    onShow(){
-        this.settings = false
+  components: {
+    TestInfo
+  },
+  data () {
+    return {
+      testId: '',
+      tests: {},
+      testResult: [],
+      userinfo: '',
+      settings: false,
+      deleteTe: false
     }
+  },
+  computed: {
+    showLoged () {
+      if (!this.userinfo.openId) {
+        return false
+      } else {
+        return true
+      }
+    },
+    showAdd () {
+      if (this.testResult.filter(v => v.openId === this.userinfo.openId).length) {
+        return false
+      }
+      return true
+    }
+  },
+  methods: {
+    async getUserTestDetail () {
+      const data = {
+        id: this.testId,
+        openId: this.userinfo.openId
+      }
+      const tests = await get('/weapp/getUserTestDetail', data)
+      this.tests = tests.list
+      console.log(tests)
+    },
+    async getTestResult () {
+      const testResult = await get('/weapp/testResult', {id: this.testId})
+      this.testResult = testResult
+      console.log(testResult)
+    },
+    async addAns () {
+      const data = {
+        openId: this.userinfo.openId,
+        queId: this.testId,
+        uAns: this.uAns
+      }
+      console.log(data)
+      try {
+        await post('/weapp/addAns', data)
+      } catch (e) {
+        e.showModal('失败', e.msg)
+      }
+      this.uAns = ''
+      this.getTestResult()
+    },
+    getSetting (e) {
+      if (e.target.value) {
+        this.settings = true
+        console.log(this.settings)
+      } else {
+        this.settings = false
+      }
+    },
+    deleteTest () {
+      this.deleteTe = true
+    },
+    async deleteConfirm () {
+      await get('/weapp/deleteTest', {id: this.testId})
+      wx.navigateTo({
+        url: '/pages/owntest/main'
+      })
+    },
+    updateTest () {
+      wx.navigateTo({
+        url: '/pages/updatetest/main?id=' + this.testId
+      })
+    }
+  },
+  mounted () {
+    let userinfo = wx.getStorageSync('userinfo')
+    console.log(userinfo)
+    if (userinfo) {
+      this.userinfo = userinfo
+    }
+    this.testId = this.$root.$mp.query.id
+    // mpvue查询的方式
+    // query所有查询的参数
+    this.getUserTestDetail()
+    this.getTestResult()
+  },
+  onShow () {
+    this.settings = false
+  }
 }
 </script>
 

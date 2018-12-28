@@ -43,54 +43,53 @@
 import {get} from '@/util'
 
 export default {
-    data(){
-        return {
-            userinfo: '',
-            testId: '',
-            tests: [],
-            focus: ''
-           
-        }
-    },
-    methods: {
-        async getDetail(){
-            const tests = await get('/weapp/testDetail',{id:this.testId})
-            this.tests = tests.list
-            console.log(tests)
-        },
-        async updateTe(){
-            
-            const data = {
-                id:this.testId,
-                title: this.title,
-                choiceA: this.choiceA,
-                choiceB: this.choiceB,
-                choiceC: this.choiceC,
-                choiceD: this.choiceD,
-                answer: this.answer
-            }
-            console.log(data)
-            await get('/weapp/updateTest', data)
-            wx.navigateTo({
-                url: '/pages/me/main'
-            })
-        }
-    },
-    mounted(){
-        let userinfo = wx.getStorageSync('userinfo')
-        console.log(userinfo)
-        if (userinfo) {
-            this.userinfo = userinfo
-        }
-        
-        this.testId = this.$root.$mp.query.id
-        console.log(this.testId)
-        this.getDetail()
-    },
-    onShow(){
-        this.focus = true
+  data () {
+    return {
+      userinfo: '',
+      testId: '',
+      tests: [],
+      focus: ''
+
     }
-    
+  },
+  methods: {
+    async getDetail () {
+      const tests = await get('/weapp/testDetail', {id: this.testId})
+      this.tests = tests.list
+      console.log(tests)
+    },
+    async updateTe () {
+      const data = {
+        id: this.testId,
+        title: this.title,
+        choiceA: this.choiceA,
+        choiceB: this.choiceB,
+        choiceC: this.choiceC,
+        choiceD: this.choiceD,
+        answer: this.answer
+      }
+      console.log(data)
+      await get('/weapp/updateTest', data)
+      wx.navigateTo({
+        url: '/pages/me/main'
+      })
+    }
+  },
+  mounted () {
+    let userinfo = wx.getStorageSync('userinfo')
+    console.log(userinfo)
+    if (userinfo) {
+      this.userinfo = userinfo
+    }
+
+    this.testId = this.$root.$mp.query.id
+    console.log(this.testId)
+    this.getDetail()
+  },
+  onShow () {
+    this.focus = true
+  }
+
 }
 </script>
 

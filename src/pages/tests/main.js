@@ -5,7 +5,7 @@ const app = new Vue(Test)
 app.$mount()
 
 export default{
-    config: {
-        enablePullDownRefresh:true
-    }
+  config: {
+    enablePullDownRefresh: true
+  }
 }

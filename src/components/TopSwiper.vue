@@ -27,14 +27,14 @@
 
 <script>
 export default {
-    props: ['tops'],
-    methods:{
-        testDetail(item){
-            wx.navigateTo({
-                url: '/pages/detail/main?id='+item.id
-            })
-        }
+  props: ['tops'],
+  methods: {
+    testDetail (item) {
+      wx.navigateTo({
+        url: '/pages/detail/main?id=' + item.id
+      })
     }
+  }
 }
 </script>
 

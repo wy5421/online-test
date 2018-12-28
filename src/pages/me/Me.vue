@@ -82,11 +82,11 @@ export default {
         })
       }
     },
-    swichTo(){
+    swichTo () {
       console.log('*****')
-          wx.navigateTo({
-          url: '/pages/addTest/main'
-        })
+      wx.navigateTo({
+        url: '/pages/addTest/main'
+      })
     }
   },
   onShow () {
