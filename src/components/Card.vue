@@ -63,14 +63,15 @@ export default {
 
 .tag{
     position: absolute;
-    width: 10%;
+    width: 20%;
     right: 30rpx;
     top: 20rpx;
     border: 2rpx solid rgb(248, 157, 45);
     text-align: center;
-    font-size: 32rpx;
+    font-size: 24rpx;
     color: rgb(248, 157, 45);
     border-radius: 15%;
+    overflow: hidden;
     // float: right;
 }
 

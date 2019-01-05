@@ -2,7 +2,7 @@
 <div class='swiper'>
     
     <swiper
-      :indicator-dots='false'
+      :indicator-dots='true'
       :autoplay='true'
       :interval='6000'
       :duration='1000'
