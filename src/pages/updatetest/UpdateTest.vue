@@ -16,22 +16,22 @@
             {{test.deptName}}
         </div>
         <div class="title">
-            <input v-model.lazy='title' type="text" :value="test.title" :autofocus="focus">
+            <input v-model='title' type="text" :value="test.title">
         </div>
         <div class="choice">
-            A.<input v-model.lazy='choiceA' type="text" :value="test.choiceA" :autofocus="focus">
+            A.<input v-model='A' type="text" :value="test.choiceA">
         </div>
         <div class="choice">
-            B.<input v-model.lazy='choiceB' type="text" :value="test.choiceB" :autofocus="focus">
+            B.<input v-model='B' type="text" :value="test.choiceB">
         </div>
         <div class="choice">
-            C.<input v-model.lazy='choiceC' type="text" :value="test.choiceC" :autofocus="focus">
+            C.<input v-model='C' type="text" :value="test.choiceC">
         </div>
         <div class="choice">
-            D.<input v-model.lazy='choiceD' type="text" :value="test.choiceD" :autofocus="focus">
+            D.<input v-model='D' type="text" :value="test.choiceD">
         </div>
         <div class="choice">
-            答案：<input v-model.lazy='answer' type="text" :value="test.answer" :autofocus="focus">
+            答案：<input v-model='ans' type="text" :value="test.answer">
         </div>
         <button class="btn" @click="updateTe">确认修改</button>
     </div>
@@ -62,11 +62,11 @@ export default {
       const data = {
         id: this.testId,
         title: this.title,
-        choiceA: this.choiceA,
-        choiceB: this.choiceB,
-        choiceC: this.choiceC,
-        choiceD: this.choiceD,
-        answer: this.answer
+        choiceA: this.A,
+        choiceB: this.B,
+        choiceC: this.C,
+        choiceD: this.D,
+        answer: this.ans
       }
       console.log(data)
       await get('/weapp/updateTest', data)

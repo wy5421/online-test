@@ -74,4 +74,34 @@ router.get('/deleteTest', controllers.deleteTest)
 // 更新某一条记录
 router.get('/updateTest', controllers.updateTest)
 
+// 查询所有超级管理员
+router.get('/getAdminInfo', controllers.getAdminInfo)
+
+// 判断是不是管理员
+router.get('/isAdmin', controllers.isAdmin)
+
+// 获取所有用户信息
+router.get('/getAllUsers', controllers.getAllUsers)
+
+// 判断做答是否正确
+router.get('/ansIsTrue', controllers.ansIsTrue)
+
+// 重做试题
+router.post('/updateAns', controllers.updateAns)
+
+// 自动为用户建立一个角色
+router.post('/addUserDeInfo', controllers.addUserDeInfo)
+
+// 获取用户在本小程序内自定义的信息
+router.post('/getUserDeInfo', controllers.getUserDeInfo)
+
+// 更新用户的自定义信息
+router.post('/updateDeInfo', controllers.updateDeInfo)
+
+// 答对试题统计
+router.get('/counTest', controllers.counTest)
+
+// 累计回答试题
+router.get('/countFarTest', controllers.countFarTest)
+
 module.exports = router

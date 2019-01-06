@@ -18,7 +18,7 @@ export default {
       'backgroundTextStyle': 'light'
     },
     'tabBar': {
-      'selectedColor': 'green',
+      'selectedColor': 'blue',
       'list': [{
         'pagePath': 'pages/usertest/main',
         'text': '评论',
@@ -30,6 +30,12 @@ export default {
         'text': '考试',
         'iconPath': 'static/img/todo.png',
         'selectedIconPath': 'static/img/todo-active.png'
+      },
+      {
+        'pagePath': 'pages/me/main',
+        'text': '展示',
+        'iconPath': 'static/img/user1.png',
+        'selectedIconPath': 'static/img/user2.png'
       },
       {
         'pagePath': 'pages/me/main',

@@ -11,7 +11,11 @@
         <div v-if="!showAdd&&showLoged" class="overed">
             <p>已经做过啦</p>
             <p v-for="result in testResult" :key="result.id">你的答案是：{{result.uAns}}</p>
-            <p v-for="test in tests" :key="test.id">作者说答案是:{{test.answer}}</p>
+            <button v-if="!Resub&&!agreeUp" class="btn" @click="applyUp">重做</button>
+            <div v-if="agreeUp">
+              <input type="text" placeholder="输入A-B-C-D即可" v-model="secUAns">
+              <button @click="updateAns" class="btn">提交</button>
+            </div>
         </div>
         <button open-type='share' class="btn">转发</button>
 </div>
@@ -19,7 +23,7 @@
 
 <script>
 
-import {get, post} from '@/util'
+import {get, post, showModal} from '@/util'
 import TestInfo from '@/components/TestInfo'
 
 export default {
@@ -29,9 +33,11 @@ export default {
   data () {
     return {
       testId: '',
-      tests: {},
+      tests: '',
       userinfo: '',
-      testResult: []
+      testResult: [],
+      ansJudgement: '',
+      agreeUp: false
     }
   },
   computed: {
@@ -43,30 +49,24 @@ export default {
       }
     },
     showAdd () {
+      console.log(this.userinfo)
       if (this.testResult.filter(v => v.openId === this.userinfo.openId).length) {
         return false
       }
       return true
+    },
+    Resub(){
+      if(this.ansJudgement.length){
+        return true
+      }
+      return false
     }
-    // score(){
-    //     const userAns = this.testResult.uAns
-    //     const testAns = this.tests.answer
-    //     if(userAns === testAns){
-    //         console.log(123)
-    //     }
-    // if(this.testResult.uAns === this.tests.answer){
-    //     console.log(123)
-    // }
-    // }
   },
   methods: {
     async getDetail () {
       const tests = await get('/weapp/testDetail', {id: this.testId})
       this.tests = tests.list
       console.log(tests)
-      wx.setNavigationBarTitle({
-        title: `${tests.user_info.ncName}的提问`
-      })
     },
     async getTestResult () {
       const testResult = await get('/weapp/testResult', {id: this.testId})
@@ -87,6 +87,33 @@ export default {
       }
       this.uAns = ''
       this.getTestResult()
+    },
+    async ansJudge(){
+      const data = {
+        id: this.testId,
+        openId: this.userinfo.openId
+      }
+      const ansJudgement = await get('/weapp/ansIsTrue',data)
+      this.ansJudgement = ansJudgement
+    },
+    applyUp(){
+      this.agreeUp = true
+    },
+    async updateAns(){
+      const data = {
+        openId: this.userinfo.openId,
+        queId: this.testId,
+        uAns: this.secUAns
+      }
+      console.log(data)
+      try {
+        await post('/weapp/updateAns', data)
+      }catch(e){
+        e.showModal('失败', e.msg)
+      }
+      this.getTestResult()
+      this.agreeUp = false
+      this.ansJudge()
     }
   },
   mounted () {
@@ -101,12 +128,14 @@ export default {
     // query所有查询的参数
     this.getDetail()
     this.getTestResult()
+    this.ansJudge()
+    this.agreeUp = false
   }
 
 }
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
 .ipt{
     width: 98%;
     margin: 10rpx auto;

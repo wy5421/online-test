@@ -4,7 +4,7 @@
     <div class="setting">
         <switch @change="getSetting"></switch>
         <div v-if="settings">
-        <button class="btn" @click="updateTest" >修改</button>
+        <button class="btn" @click="updateTest" v-if="showAdd">修改</button>
         <button class="btn-del" @click="deleteTest" v-if="!deleteTe">删除</button>
         <button class="btn-del" @click="deleteConfirm" v-if="deleteTe">确认删除？</button>
         </div>

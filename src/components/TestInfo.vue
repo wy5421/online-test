@@ -73,7 +73,6 @@ export default {
     margin: 30rpx;
     width: 70rpx;
     font-size: 24rpx;
-    height: 40rpx;
     text-align: center;
     color: red;
     border: 2rpx solid red;
