@@ -14,29 +14,35 @@
             <p class="content" :key="countTest" v-for="countTest in countTests">累计答对<span class="mainContent">{{countTest.a}}</span>道题</p>
             <p class="content" :key="countFarmer" v-for="countFarmer in countFarmers">累计回答<span class="mainContent">{{countFarmer.b}}</span>道题</p>
         </div>
-        </div>
+        
         <div>
             <div class="title"><p>个人收藏</p></div>
-            <p class="content" :key="countTest" v-for="countTest in countTests">累计答对<span class="mainContent">{{countTest.a}}</span>道题</p>
-            <p class="content" :key="countFarmer" v-for="countFarmer in countFarmers">累计回答<span class="mainContent">{{countFarmer.b}}</span>道题</p>
+            <p class="content" :key="countFavorite" v-for="countFavorite in countFavorites" @click="naviAllFav">累计收藏<span class="mainContent">{{countFavorite.c}}</span>道题</p>
+            <FavoriteCard :key="favoriteTest.id" v-for="favoriteTest in favoriteTests" :favoriteTest='favoriteTest'></FavoriteCard>
+        </div>
         </div>
     </div>
 </template>
 
 <script>
+
 import {get, post, showModal} from '@/util'
 import UserSocial from '@/components/UserSocial'
+import FavoriteCard from '@/components/FavoriteCard'
 
 export default {
     components:{
-        UserSocial
+        UserSocial,
+        FavoriteCard
     },
     data(){
         return {
             userinfo: '',
             userDeInfo: '',
             countTests: '',
-            countFarmers: ''
+            countFarmers: '',
+            countFavorites: '',
+            favoriteTests: []
         }
     },
     methods:{
@@ -61,6 +67,21 @@ export default {
             const countFarmers = await get('/weapp/countFarTest',{ openId:this.userinfo.openId })
             this.countFarmers = countFarmers
             console.log(countFarmers)
+        },
+        async countFavorite(){
+            const countFavorites = await get('/weapp/countFavorite',{ openId:this.userinfo.openId })
+            this.countFavorites = countFavorites
+            console.log(countFavorites)
+        },
+        async getFavorite(){
+            const favoriteTests = await get('/weapp/getFavoriteTest',{ openId:this.userinfo.openId })
+            this.favoriteTests = favoriteTests.list
+            console.log(favoriteTests)
+        },
+        naviAllFav(){
+            wx.navigateTo({
+                url: '/pages/userfavoritelist/main'
+            })
         },
         onPullDownRefresh () {
             console.log('下拉')
@@ -87,6 +108,8 @@ export default {
         this.getUserDeInfo()
         this.countTest()
         this.countFarTest()
+        this.countFavorite()
+        this.getFavorite()
     }
 }
 </script>
@@ -95,6 +118,7 @@ export default {
 .uInfo{
     position: relative;
 }
+
 .setting{
     position: absolute;
     right: 20rpx;
@@ -103,13 +127,15 @@ export default {
     margin-top: 20rpx;
     text-align: center;
 }
+
+
 .setIcon{
     width: 75rpx;
     height: 75rpx;
 }
 
 .title{
-    width: 100%;
+    width: 30%;
     margin-top: 30rpx;
     margin-left: 10rpx;
     padding-left: 20rpx;
@@ -117,13 +143,25 @@ export default {
     border-left: 4rpx solid red;
 }
 
+a:hover{
+    background-color: white;
+}
+
 .content{
     width: 100%;
     margin-top: 20rpx;
     margin-left: 30rpx;
+    position: relative;
 }
+.content .seaIcon{
+    position: absolute;
+    top: 5rpx;
+    left: 20%;
+}
+
 .mainContent{
     margin: 0 5rpx;
     color: rgb(238, 128, 128);
 }
+
 </style>

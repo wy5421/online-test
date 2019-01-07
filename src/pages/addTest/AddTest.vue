@@ -47,8 +47,8 @@ export default {
       }
       try {
         await post('/weapp/addTest', data)
-        wx.navigateTo({
-          url: '/pages/owntest/main'
+        wx.switchTab({
+          url: '/pages/tests/main'
         })
       } catch (e) {
         showModal('失败', e.msg)

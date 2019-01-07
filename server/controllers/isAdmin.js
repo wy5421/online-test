@@ -1,7 +1,7 @@
 const {mysql} = require('../qcloud')
 
 module.exports = async (ctx) =>{
-    const {openId} = ctx.request.query
+    const {openId} = ctx.request.body
 
     const adminList = await mysql('admin')
                                 .select('admin.*')

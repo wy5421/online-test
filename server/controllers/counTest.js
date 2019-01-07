@@ -11,7 +11,6 @@ module.exports = async (ctx) =>{
                             .where('test.openId',openId)
                             // .andWhere('test.uAns','=','questions.answer')
                             // .where('questions.openId',openId)
-    console.log(counter)
     ctx.state.data = counter
     return ctx.state.data
 }

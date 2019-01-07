@@ -43,7 +43,7 @@ export default {
       currentTab: 0,
       userinfo: {
         avatarUrl: 'http://image.shengxinjing.cn/rate/unlogin.png',
-        nickName: ''
+        nickName: '请登录'
       }
     }
   },
@@ -83,7 +83,6 @@ export default {
       }
     },
     swichTo () {
-      console.log('*****')
       wx.navigateTo({
         url: '/pages/addTest/main'
       })

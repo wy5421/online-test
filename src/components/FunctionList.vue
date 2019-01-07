@@ -33,7 +33,7 @@
 
 <script>
 
-import {get} from '@/util'
+import {get, post} from '@/util'
 
 export default {
   data () {
@@ -42,8 +42,8 @@ export default {
       adminList: '',
       guide: [{url: '/static/img/setting.png', title: '使用指南', intro: '欧哈娜的使用手册', naviUrl: '/pages/introduction/main'}],
       admin: [
-        {url: '/static/img/setting.png', title: '用户列表', intro: '赋予用户超级管理员', naviUrl: '/pages/userlist/main'},
-        {url: '/static/img/setting.png', title: '管理员', intro: '查看超级管理员', naviUrl: '/pages/usermanage/main'}],
+        {url: '/static/img/plus.png', title: '用户列表', intro: '赋予用户超级管理员', naviUrl: '/pages/userlist/main'},
+        {url: '/static/img/cloud.png', title: '管理员', intro: '查看超级管理员', naviUrl: '/pages/usermanage/main'}],
       boxes: [
         {url: '/static/img/greatwall.png', title: '发布试题', intro: '点击前往发布你的试题', naviUrl: '/pages/addTest/main'},
         {url: '/static/img/moon.png', title: '个人题库', intro: '点击查看你发布的试题', naviUrl: '/pages/owntest/main'},
@@ -69,9 +69,8 @@ export default {
   },
   methods: {
     async isAdmin(){
-      const adminList = await get('/weapp/isAdmin', {openId: this.userinfo.openId})
+      const adminList = await post('/weapp/isAdmin', {openId: this.userinfo.openId})
       this.adminList = adminList
-      console.log(123,adminList)
     },
     functionDetail (item) {
       wx.navigateTo({

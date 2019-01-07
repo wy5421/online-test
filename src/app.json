@@ -14,7 +14,8 @@
     "pages/usermanage/main",
     "pages/userlist/main",
     "pages/usershow/main",
-    "pages/usershowset/main"
+    "pages/usershowset/main",
+    "pages/userfavoritelist/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -39,8 +40,8 @@
       {
         "pagePath": "pages/usershow/main",
         "text": "展示",
-        "iconPath": "static/img/user1.png",
-        "selectedIconPath": "static/img/user2.png"
+        "iconPath": "static/img/course1.png",
+        "selectedIconPath": "static/img/course2.png"
       },
       {
         "pagePath": "pages/me/main",

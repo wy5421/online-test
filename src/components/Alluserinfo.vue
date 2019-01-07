@@ -8,14 +8,32 @@
             <div class="aName">
                 {{user.user_info.ncName}}
             </div>
+            <div class="addAdmin">
+                <icon type='download' color='white' size="75rpx" @click="insertAdmin(user)"></icon>
+            </div>
         </div>
     </div>
     </div>
 </template>
 
 <script>
+
+import {post} from '@/util'
+
 export default {
     props: ['users'],
+    methods: {
+        async insertAdmin(item){
+            const adData = {
+                openId: item.open_id,
+                nickName: item.user_info.ncName
+            }
+            await post('/weapp/insertAdmin', adData)
+            wx.switchTab({
+                url: '/pages/me/main'
+            })
+        }
+    }
 }
 </script>
 
@@ -52,5 +70,10 @@ export default {
     padding-top: 20rpx;
     left: 20%;
     top: 30%;
+}
+.addAdmin{
+    position: absolute;
+    right: 10%;
+    top: 15%;
 }
 </style>

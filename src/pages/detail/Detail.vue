@@ -1,6 +1,12 @@
 <template>
 <div>
+    <div class="testInfo">
     <TestInfo :key="test.id" v-for="test in tests" :test="test"></TestInfo>
+    </div>
+    <div class="addFavorite" >
+      <icon type='download' color='white' size='40rpx' @click="insertFavorite" v-if="!Inserted"></icon>
+      <icon type='success' color='white' size='40rpx' v-if="Inserted"></icon>
+    </div>
     <div class="ipt" v-if="showAdd">
         <input type="text" placeholder="输入A-B-C-D即可" v-model="uAns">
         <button @click="addAns" class="btn">提交</button>
@@ -17,7 +23,10 @@
               <button @click="updateAns" class="btn">提交</button>
             </div>
         </div>
-        <button open-type='share' class="btn">转发</button>
+        <div v-if="Admin">
+          <button class="btn-del" @click="deleteTest" v-if="!deleteTe">删除</button>
+          <button class="btn-del" @click="deleteConfirm" v-if="deleteTe">确认删除？</button>
+        </div>
 </div>
 </template>
 
@@ -37,7 +46,10 @@ export default {
       userinfo: '',
       testResult: [],
       ansJudgement: '',
-      agreeUp: false
+      dataFavorites: '',
+      adminList: [],
+      agreeUp: false,
+      deleteTe: false
     }
   },
   computed: {
@@ -49,7 +61,6 @@ export default {
       }
     },
     showAdd () {
-      console.log(this.userinfo)
       if (this.testResult.filter(v => v.openId === this.userinfo.openId).length) {
         return false
       }
@@ -57,6 +68,21 @@ export default {
     },
     Resub(){
       if(this.ansJudgement.length){
+        //若回答正确，返回为真，不允许重做，否则可以重做
+        return true
+      }
+      return false
+    },
+    Inserted(){
+      if(this.dataFavorites.length){
+        // 已经收藏
+        return true
+      }
+      return false
+    },
+    Admin(){
+      if(this.adminList.length){
+        // 判断是不是管理员
         return true
       }
       return false
@@ -66,12 +92,10 @@ export default {
     async getDetail () {
       const tests = await get('/weapp/testDetail', {id: this.testId})
       this.tests = tests.list
-      console.log(tests)
     },
     async getTestResult () {
       const testResult = await get('/weapp/testResult', {id: this.testId})
       this.testResult = testResult
-      console.log(testResult)
     },
     async addAns () {
       const data = {
@@ -79,7 +103,6 @@ export default {
         queId: this.testId,
         uAns: this.uAns
       }
-      console.log(data)
       try {
         await post('/weapp/addAns', data)
       } catch (e) {
@@ -89,6 +112,7 @@ export default {
       this.getTestResult()
     },
     async ansJudge(){
+      //判断答案是否正确
       const data = {
         id: this.testId,
         openId: this.userinfo.openId
@@ -96,16 +120,12 @@ export default {
       const ansJudgement = await get('/weapp/ansIsTrue',data)
       this.ansJudgement = ansJudgement
     },
-    applyUp(){
-      this.agreeUp = true
-    },
     async updateAns(){
       const data = {
         openId: this.userinfo.openId,
         queId: this.testId,
         uAns: this.secUAns
       }
-      console.log(data)
       try {
         await post('/weapp/updateAns', data)
       }catch(e){
@@ -114,11 +134,47 @@ export default {
       this.getTestResult()
       this.agreeUp = false
       this.ansJudge()
+    },
+    async insertFavorite(){
+      const dataFavorite = {
+        openId: this.userinfo.openId,
+        queId: this.testId
+      }
+      try {
+        await post('/weapp/addFavorite', dataFavorite)
+      } catch (e) {
+        e.showModal('失败', e.msg)
+      }
+      this.alreadyInsert()
+    },
+    async alreadyInsert(){
+      const dataFavorite = {
+        openId: this.userinfo.openId,
+        queId: this.testId
+      }
+      const dataFavorites = await get('/weapp/alreadyInsert', dataFavorite)
+      this.dataFavorites = dataFavorites
+    },
+    async isAdmin(){
+      const adminList = await get('/weapp/isAdmin', {openId: this.userinfo.openId})
+      this.adminList = adminList
+      console.log(123,adminList)
+    },
+    async deleteConfirm(){
+      await get('/weapp/adminDeleteTest', {id: this.testId})
+      wx.switchTab({
+        url: '/pages/tests/main'
+      })
+    },
+    applyUp(){
+      this.agreeUp = true
+    },
+    deleteTest(){
+      this.deleteTe = true
     }
   },
   mounted () {
     let userinfo = wx.getStorageSync('userinfo')
-    console.log(userinfo)
     if (userinfo) {
       this.userinfo = userinfo
     }
@@ -129,13 +185,25 @@ export default {
     this.getDetail()
     this.getTestResult()
     this.ansJudge()
+    this.isAdmin()
     this.agreeUp = false
+    this.alreadyInsert()
   }
 
 }
 </script>
 
 <style lang='scss' scoped>
+
+.testInfo{
+  position: relative;
+}
+.addFavorite{
+  position: absolute;
+  top: 60rpx;
+  right: 50rpx;
+}
+
 .ipt{
     width: 98%;
     margin: 10rpx auto;
@@ -165,6 +233,19 @@ export default {
 .btn:active{
     background-color: rgb(1, 82, 1);
 }
+
+.btn-del{
+     width: 90%;
+    font-size: 32rpx;
+    height: 80rpx;
+    margin: 20rpx auto;
+    color: white;
+    background-color: rgb(250, 4, 4);
+}
+.btn-del:active{
+    background-color: rgb(158, 4, 4);
+}
+
 .overed{
     width: 90%;
     margin: 20rpx auto;

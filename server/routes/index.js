@@ -78,7 +78,10 @@ router.get('/updateTest', controllers.updateTest)
 router.get('/getAdminInfo', controllers.getAdminInfo)
 
 // 判断是不是管理员
-router.get('/isAdmin', controllers.isAdmin)
+router.post('/isAdmin', controllers.isAdmin)
+
+// 添加管理员
+router.post('/insertAdmin', controllers.insertAdmin)
 
 // 获取所有用户信息
 router.get('/getAllUsers', controllers.getAllUsers)
@@ -103,5 +106,23 @@ router.get('/counTest', controllers.counTest)
 
 // 累计回答试题
 router.get('/countFarTest', controllers.countFarTest)
+
+// 添加收藏
+router.post('/addFavorite', controllers.addFavorite)
+
+// 判断是否已经添加收藏
+router.get('/alreadyInsert', controllers.alreadyInsert)
+
+// 获取收藏列表
+router.get('/getFavoriteTest', controllers.getFavoriteTest)
+
+// 统计收藏过多少题
+router.get('/countFavorite', controllers.countFavorite)
+
+// 获取用户的收藏
+router.get('/getUserAllFavorite', controllers.getUserAllFavorite)
+
+// 管理员删除试题
+router.get('/adminDeleteTest', controllers.adminDeleteTest)
 
 module.exports = router
